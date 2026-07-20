@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practical Jobs-to-be-Done</title>
+  <meta name="description" content="Spend the least to learn the most. Professional JTBD tools for innovators who build differently — Job Mapper Express is live now, with Venture Proof coming soon." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── CSS TOKENS: LIGHT & DARK ──────────────────────────── */
+    :root, [data-theme="light"] {
+      --bg-page:        #FFFFFF;
+      --bg-hero:        #FAFAFA;
+      --bg-card:        #FFFFFF;
+      --bg-card-muted:  #F6F8FC;
+      --bg-nav:         rgba(255,255,255,0.92);
+      --border:         #E4E8EF;
+      --border-card:    #D8DFE9;
+      --text-primary:   #0D1117;
+      --text-secondary: #4A5568;
+      --text-muted:     #8A97AA;
+      --primary:        #1089FF;
+      --primary-10:     rgba(16,137,255,0.10);
+      --primary-20:     rgba(16,137,255,0.20);
+      --orange:         #FB9224;
+      --shadow-card:    0 2px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-hover:   0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+      --hex-stroke:     rgba(0,0,0,0.07);
+      --hex-fill:       rgba(240,240,240,0.6);
+      --coming-overlay: rgba(248,249,250,0.55);
+      --toggle-bg:      #E4E8EF;
+      --toggle-dot-bg:  #FFFFFF;
+    }
+    [data-theme="dark"] {
+      --bg-page:        #0D1117;
+      --bg-hero:        #0A0E14;
+      --bg-card:        #161C25;
+      --bg-card-muted:  #111720;
+      --bg-nav:         rgba(13,17,23,0.92);
+      --border:         #1E2938;
+      --border-card:    #222C3C;
+      --text-primary:   #F0F4FF;
+      --text-secondary: #8A9BB5;
+      --text-muted:     #4A5872;
+      --primary:        #3BA5FF;
+      --primary-10:     rgba(59,165,255,0.12);
+      --primary-20:     rgba(59,165,255,0.22);
+      --orange:         #FB9224;
+      --shadow-card:    0 2px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2);
+      --shadow-hover:   0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.25);
+      --hex-stroke:     rgba(255,255,255,0.055);
+      --hex-fill:       rgba(255,255,255,0.02);
+      --coming-overlay: rgba(13,17,23,0.55);
+      --toggle-bg:      #1E2938;
+      --toggle-dot-bg:  #0D1117;
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      height: 64px; padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .nav__brand { display: flex; align-items: center; gap: 10px; }
+    .nav__logo { height: 36px; width: auto; object-fit: contain; }
+    .nav__logo-fallback { display: none; width: 36px; height: 36px; }
+
+    .toggle {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--toggle-bg); border: 1px solid var(--border);
+      border-radius: 999px; padding: 5px 14px 5px 8px;
+      cursor: pointer; font-family: inherit;
+      transition: border-color 0.25s, transform 0.15s;
+      outline: none;
+    }
+    .toggle:hover { transform: translateY(-1px); border-color: var(--primary); }
+    .toggle:active { transform: translateY(0); }
+    .toggle__icon {
+      width: 24px; height: 24px;
+      background: var(--toggle-dot-bg); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .toggle__label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    .hero {
+      position: relative; overflow: hidden;
+      background: var(--bg-hero);
+      padding: 80px 40px 72px; text-align: center;
+      transition: background 0.3s;
+    }
+    .hero__bg {
+      position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+    }
+    .hero__content { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--primary); background: var(--primary-10); border: 1px solid var(--primary-20);
+      border-radius: 999px; padding: 5px 14px; margin-bottom: 24px;
+    }
+    .eyebrow__dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--primary);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    h1.hero__h {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900; letter-spacing: -0.03em; line-height: 1.1;
+      color: var(--text-primary); margin-bottom: 16px;
+      transition: color 0.3s;
+    }
+    h1.hero__h span { color: var(--primary); }
+
+    .hero__sub {
+      font-size: clamp(15px, 2vw, 18px); font-weight: 400;
+      color: var(--text-secondary); max-width: 480px; margin: 0 auto; line-height: 1.7;
+      transition: color 0.3s;
+    }
+
+    /* ─── APPS SECTION ───────────────────────────────────────── */
+    .apps { padding: 64px 40px 80px; max-width: 1100px; margin: 0 auto; }
+    .apps-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;
+    }
+
+    /* ─── CARD ───────────────────────────────────────────────── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border-card);
+      border-radius: 20px; overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s, background 0.3s;
+    }
+    .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+
+    .card__img-wrap {
+      position: relative; overflow: hidden; aspect-ratio: 3/2;
+      background: var(--bg-card-muted);
+    }
+    .card__img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .card:hover .card__img { transform: scale(1.02); }
+
+    .badge {
+      position: absolute; top: 14px; left: 14px;
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 999px; padding: 4px 10px;
+    }
+    .badge--live {
+      background: rgba(16,137,255,0.12); color: #1089FF; border: 1px solid rgba(16,137,255,0.3);
+    }
+    .badge__dot { width: 5px; height: 5px; border-radius: 50%; background: #1089FF; animation: pulse 2s ease-in-out infinite; }
+    .badge--soon {
+      background: rgba(251,146,36,0.15); color: #C97A10; border: 1px solid rgba(251,146,36,0.35);
+    }
+    [data-theme="dark"] .badge--soon { color: #FB9224; }
+
+    .card__overlay {
+      position: absolute; inset: 0; background: var(--coming-overlay);
+      backdrop-filter: saturate(0.2) blur(0.5px);
+      -webkit-backdrop-filter: saturate(0.2) blur(0.5px);
+    }
+
+    .card__body { padding: 28px 28px 24px; }
+    .card__cat {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 8px;
+    }
+    .card__title {
+      font-size: 22px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2;
+      color: var(--text-primary); margin-bottom: 10px; transition: color 0.3s;
+    }
+    .card--muted .card__title { color: var(--text-secondary); }
+    .card__tagline { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; transition: color 0.3s; }
+
+    .card__actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    /* ─── BUTTONS ────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      border-radius: 10px; font-family: inherit; font-size: 13px; font-weight: 700;
+      cursor: pointer; border: none; outline: none; text-decoration: none; padding: 11px 20px;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn--primary {
+      background: var(--primary); color: #FFF;
+      box-shadow: 0 2px 8px rgba(16,137,255,0.25);
+    }
+    .btn--primary:hover { box-shadow: 0 6px 20px rgba(16,137,255,0.35); }
+    .btn--ghost {
+      background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border-card); padding: 10px 18px;
+    }
+    .btn--ghost:hover { color: var(--text-primary); border-color: var(--text-muted); }
+    .btn--off {
+      background: var(--bg-card-muted); color: var(--text-muted);
+      border: 1px solid var(--border); cursor: not-allowed; opacity: 0.7;
+    }
+    .btn--off:hover { transform: none; }
+    .btn__arr { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--border); background: var(--bg-hero);
+      padding: 28px 40px; display: flex; align-items: center;
+      justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .footer__brand { font-size: 13px; font-weight: 700; color: var(--text-secondary); }
+    .footer__tagline { font-size: 12px; color: var(--text-muted); font-style: italic; }
+    .footer__copy { font-size: 11px; color: var(--text-muted); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav { padding: 0 20px; }
+      .hero { padding: 56px 20px 52px; }
+      .apps { padding: 40px 20px 56px; }
+      .apps-grid { grid-template-columns: 1fr; gap: 20px; }
+      .footer { padding: 20px; flex-direction: column; text-align: center; gap: 8px; }
+    }
+    @media (max-width: 480px) {
+      .card__body { padding: 20px; }
+      .card__title { font-size: 19px; }
+      .btn { font-size: 12px; padding: 10px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__brand">
+      <img class="nav__logo" src="logo.png" alt="Practical Jobs-to-be-Done Logo"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+      <svg class="nav__logo-fallback" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="18,2 32,10 32,26 18,34 4,26 4,10" fill="#1089FF" stroke="#0D1117" stroke-width="1.5"/>
+        <polygon points="18,8 27,13 27,23 18,28 9,23 9,13" fill="#FB9224" stroke="#0D1117" stroke-width="1"/>
+        <polygon points="18,14 22,16.5 22,21.5 18,24 14,21.5 14,16.5" fill="#2A2D35" stroke="#0D1117" stroke-width="0.75"/>
+      </svg>
+    </div>
+    <button class="toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <span class="toggle__icon" id="themeIcon">&#9728;&#65039;</span>
+      <span class="toggle__label" id="themeLabel">Light</span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="heroH1">
+    <svg class="hero__bg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <pattern id="hex" x="0" y="0" width="60" height="69.28" patternUnits="userSpaceOnUse">
+          <polygon points="30,0 60,17.32 60,51.96 30,69.28 0,51.96 0,17.32"
+            fill="var(--hex-fill)" stroke="var(--hex-stroke)" stroke-width="1"/>
+          <polygon points="60,0 90,17.32 90,51.96 60,69.28 30,51.96 30,17.32"
+            fill="var(--hex-fill)" stroke="var(--hex-stroke)" stroke-width="1" transform="translate(-30,34.64)"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hex)" />
+    </svg>
+    <div class="hero__content">
+      <div class="eyebrow"><span class="eyebrow__dot"></span>Practical Jobs-to-be-Done</div>
+      <h1 class="hero__h" id="heroH1">Practical<br/><span>Jobs-to-be-Done</span></h1>
+      <p class="hero__sub">Spend the least to learn the most.<br/>Precision tools for innovators who build differently.</p>
+    </div>
+  </section>
+
+  <!-- APPS -->
+  <main class="apps" id="apps" aria-label="App showcase">
+    <div class="apps-grid">
+
+      <!-- Job Mapper Express — LIVE -->
+      <article class="card" aria-label="Job Mapper Express — Active App">
+        <div class="card__img-wrap">
+          <img class="card__img" src="job_mapper_illustration.jpg"
+            alt="Person mapping a customer transcript into a structured JTBD job map using Job Mapper Express" />
+          <span class="badge badge--live">
+            <span class="badge__dot"></span>Live Now
+          </span>
+        </div>
+        <div class="card__body">
+          <p class="card__cat">AI-Powered Research Tool</p>
+          <h2 class="card__title">Job Mapper Express</h2>
+          <p class="card__tagline">Paste a customer transcript. Get a structured JTBD Job Map with AI-generated Customer Success Statements — in seconds.</p>
+          <div class="card__actions">
+            <a href="https://app.jtbd.one/job-mapper" id="launchJobMapper"
+              class="btn btn--primary" target="_blank" rel="noopener noreferrer"
+              aria-label="Launch Job Mapper Express">
+              Launch App
+              <svg class="btn__arr" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="/pricing" id="seePricing" class="btn btn--ghost" aria-label="See pricing">See Pricing</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Venture Proof — COMING SOON -->
+      <article class="card card--muted" aria-label="Venture Proof — Coming Soon">
+        <div class="card__img-wrap">
+          <img class="card__img" src="venture_proof_illustration.jpg"
+            style="filter:saturate(0.35) brightness(1.05)"
+            alt="Strategy blueprint diagram showing constraint horizons, pivot domains, asymmetric moats, and discard thresholds" />
+          <div class="card__overlay" aria-hidden="true"></div>
+          <span class="badge badge--soon">&#8987; Coming Soon</span>
+        </div>
+        <div class="card__body">
+          <p class="card__cat">Venture Strategy Suite</p>
+          <h2 class="card__title">Venture Proof</h2>
+          <p class="card__tagline">Synthesize out-of-domain pivot blueprints. Map your constraint horizons and find your structural advantage before you build.</p>
+          <div class="card__actions">
+            <button class="btn btn--off" disabled id="ventureProofCTA" aria-label="Coming soon">Coming Soon</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div>
+      <p class="footer__brand">Practical Jobs-to-be-Done</p>
+      <p class="footer__tagline">Spend the least to learn the most.</p>
+    </div>
+    <p class="footer__copy">&copy; 2026 Practical Jobs-to-be-Done. All rights reserved.</p>
+  </footer>
+
+  <!-- THEME JS -->
+  <script>
+    (function(){
+      var html=document.documentElement,
+          btn=document.getElementById('themeToggle'),
+          icon=document.getElementById('themeIcon'),
+          lbl=document.getElementById('themeLabel');
+      function set(t,save){
+        html.setAttribute('data-theme',t);
+        if(t==='dark'){icon.innerHTML='&#127769;';lbl.textContent='Dark';}
+        else{icon.innerHTML='&#9728;&#65039;';lbl.textContent='Light';}
+        if(save) localStorage.setItem('jtbd-theme',t);
+      }
+      set(localStorage.getItem('jtbd-theme')||'light',false);
+      btn.addEventListener('click',function(){
+        set(html.getAttribute('data-theme')==='dark'?'light':'dark',true);
+      });
+    })();
+  </script>
+</body>
+</html>
