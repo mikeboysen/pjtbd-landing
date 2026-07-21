@@ -22,6 +22,34 @@
   ],
   "rewrites": [
     {
+      "source": "/job-mapper",
+      "destination": "https://job-map-express.vercel.app/job-mapper"
+    },
+    {
+      "source": "/job-mapper/:path*",
+      "destination": "https://job-map-express.vercel.app/job-mapper/:path*"
+    },
+    {
+      "source": "/venture-proof",
+      "destination": "https://web-alpha-rouge-61.vercel.app/venture-proof"
+    },
+    {
+      "source": "/venture-proof/:path*",
+      "destination": "https://web-alpha-rouge-61.vercel.app/venture-proof/:path*"
+    },
+    {
+      "source": "/login",
+      "destination": "https://web-alpha-rouge-61.vercel.app/venture-proof/login"
+    },
+    {
+      "source": "/pricing",
+      "destination": "https://web-alpha-rouge-61.vercel.app/venture-proof/pricing"
+    },
+    {
+      "source": "/api/auth/:path*",
+      "destination": "https://web-alpha-rouge-61.vercel.app/venture-proof/api/auth/:path*"
+    },
+    {
       "source": "/",
       "destination": "/index.html"
     }
