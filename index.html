@@ -147,9 +147,9 @@
     }
 
     /* ─── APPS SECTION ───────────────────────────────────────── */
-    .apps { padding: 64px 40px 80px; max-width: 1100px; margin: 0 auto; }
+    .apps { padding: 64px 40px 80px; max-width: 1200px; margin: 0 auto; }
     .apps-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; align-items: start;
     }
 
     /* ─── CARD ───────────────────────────────────────────────── */
@@ -328,13 +328,13 @@
         </div>
       </article>
 
-      <!-- Venture Proof — LIVE -->
-      <article class="card" aria-label="Venture Proof — Active App">
+      <!-- Venture Proof — COMING SOON -->
+      <article class="card" aria-label="Venture Proof — Coming Soon">
         <div class="card__img-wrap">
           <img class="card__img" src="venture_proof_illustration.jpg"
             alt="Strategy blueprint diagram showing constraint horizons, pivot domains, asymmetric moats, and discard thresholds" />
-          <span class="badge badge--live">
-            <span class="badge__dot"></span>Live Now
+          <span class="badge badge--soon">
+            Coming Soon
           </span>
         </div>
         <div class="card__body">
@@ -342,15 +342,54 @@
           <h2 class="card__title">Venture Proof</h2>
           <p class="card__tagline">Synthesize out-of-domain pivot blueprints. Map your constraint horizons and find your structural advantage before you build.</p>
           <div class="card__actions">
-            <a href="https://app.jtbd.one/venture-proof" id="launchVentureProof"
+            <button class="btn btn--off" disabled aria-label="Launch App (Coming Soon)">Launch App</button>
+            <a href="https://app.jtbd.one/venture-proof/gallery" id="ventureProofGallery"
               class="btn btn--primary" target="_blank" rel="noopener noreferrer"
-              aria-label="Launch Venture Proof">
-              Launch App
+              aria-label="View Venture Proof Gallery">
+              View Gallery
               <svg class="btn__arr" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </a>
-            <a href="https://app.jtbd.one/venture-proof/gallery" id="ventureProofGallery" class="btn btn--ghost" aria-label="View Venture Proof Gallery">View Gallery</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- x402 Exchange — LIVE -->
+      <article class="card" aria-label="x402 Exchange — Active App">
+        <div class="card__img-wrap" style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); display: flex; align-items: center; justify-content: center; padding: 20px;">
+          <svg viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; max-height: 200px;">
+            <path d="M0 40H400M0 80H400M0 120H400M0 160H400M0 200H400" stroke="#334155" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+            <path d="M80 0V240M160 0V240M240 0V240M320 0V240" stroke="#334155" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+            <circle cx="200" cy="120" r="70" fill="#1089FF" opacity="0.15" filter="blur(20px)"/>
+            <path d="M100 120 L160 80 L240 160 L300 120" stroke="#1089FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M160 80 L240 80 L300 120" stroke="#FB9224" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
+            <rect x="130" y="90" width="140" height="60" rx="12" fill="#1E293B" stroke="#3B82F6" stroke-width="2"/>
+            <text x="200" y="118" fill="#F8FAFC" font-family="sans-serif" font-size="16" font-weight="800" text-anchor="middle">x402 GATEWAY</text>
+            <text x="200" y="136" fill="#38BDF8" font-family="sans-serif" font-size="11" font-weight="600" text-anchor="middle">HTTP 402 • Base Network</text>
+            <circle cx="100" cy="120" r="8" fill="#1089FF"/>
+            <circle cx="300" cy="120" r="8" fill="#1089FF"/>
+            <circle cx="160" cy="80" r="6" fill="#FB9224"/>
+            <circle cx="240" cy="160" r="6" fill="#38BDF8"/>
+          </svg>
+          <span class="badge badge--live">
+            <span class="badge__dot"></span>Live Now
+          </span>
+        </div>
+        <div class="card__body">
+          <p class="card__cat">Microservices & Data Bazaar</p>
+          <h2 class="card__title">x402 Exchange</h2>
+          <p class="card__tagline">Access pay-per-request JTBD research, market data, and automated AI services verified onchain with instant USDC settlement.</p>
+          <div class="card__actions">
+            <a href="https://app.jtbd.one/xchange" id="launchXchange"
+              class="btn btn--primary" target="_blank" rel="noopener noreferrer"
+              aria-label="Launch x402 Exchange">
+              Launch Exchange
+              <svg class="btn__arr" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="https://app.jtbd.one/xchange/api/discovery" id="xchangeDiscovery" class="btn btn--ghost" aria-label="View Bazaar Discovery API">Bazaar API</a>
           </div>
         </div>
       </article>

@@ -50,6 +50,14 @@
       "destination": "https://web-alpha-rouge-61.vercel.app/venture-proof/api/auth/:path*"
     },
     {
+      "source": "/xchange",
+      "destination": "https://x402-git-main-mike-pjtbdcoms-projects.vercel.app/xchange"
+    },
+    {
+      "source": "/xchange/:path*",
+      "destination": "https://x402-git-main-mike-pjtbdcoms-projects.vercel.app/xchange/:path*"
+    },
+    {
       "source": "/",
       "destination": "/index.html"
     }
