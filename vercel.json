@@ -51,11 +51,11 @@
     },
     {
       "source": "/xchange",
-      "destination": "https://x402.vercel.app/xchange"
+      "destination": "https://x402-gray.vercel.app/xchange"
     },
     {
       "source": "/xchange/:path*",
-      "destination": "https://x402.vercel.app/xchange/:path*"
+      "destination": "https://x402-gray.vercel.app/xchange/:path*"
     },
     {
       "source": "/",
